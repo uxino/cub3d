@@ -1,10 +1,11 @@
 NAME = cub3d
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = 
 LDFLAGS = -L./mlx -lmlx -framework AppKit -framework OpenGL
-LIBFT =libft/libft.a
+LIBFT = libft/libft.a
 SRCS 	=	main.c parser/get_map.c  parser/check_map.c parser/check_map2.c\
-			get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+			parser/check_redirect.c raycasting/raycasting.c \
+			get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 
 Y = "\033[33m"
 R = "\033[31m"
