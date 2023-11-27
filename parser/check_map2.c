@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: museker <museker@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mucakmak <mucakmak@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/01 17:07:18 by museker           #+#    #+#             */
-/*   Updated: 2023/11/01 17:07:18 by museker          ###   ########.fr       */
+/*   Created: 2023/11/01 17:07:18 by mucakmak          #+#    #+#             */
+/*   Updated: 2023/11/27 11:13:11 by mucakmak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	check_player2(t_data *d, int i, int j)
 	if (d->map[i][j] != 'W' && d->map[i][j] != 'N' &&
 		d->map[i][j] != '*' && d->map[i][j] != 'E' &&
 		d->map[i][j] != 'S' && d->map[i][j] != '0' &&
-		d->map[i][j] != '1')
+		d->map[i][j] != '1' && d->map[i][j] != '.' && d->map[i][j] != '/')
 		ft_error("Error: Invalid argument in map!", i, j);
 }
 
@@ -75,4 +75,16 @@ void	check_player(t_data *d)
 	}
 	if (count != 1)
 		ft_error("Error: Map is not valid!", -1, -1);
+}
+
+int	get_value_redirect(t_data *d, char *redirect)
+{
+	int	i;
+
+	i = -1;
+	while (d->r_paths[++i])
+		if (!ft_strncmp(d->r_paths[i][0], redirect,
+			ft_strlen(d->r_paths[i][0])))
+			return (i);
+	return (-1);
 }

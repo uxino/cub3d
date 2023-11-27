@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: museker <museker@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mucakmak <mucakmak@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 13:52:52 by museker           #+#    #+#             */
-/*   Updated: 2023/07/23 15:34:37 by museker          ###   ########.fr       */
+/*   Updated: 2023/11/27 11:19:49 by mucakmak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_getline(char *s)
 char	*ft_cutline(char *str)
 {
 	char	*cuttedline;
-	int		start; 
+	int		start;
 	int		len;
 	int		i;
 

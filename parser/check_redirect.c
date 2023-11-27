@@ -3,94 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   check_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: museker <museker@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mucakmak <mucakmak@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 09:54:52 by museker           #+#    #+#             */
-/*   Updated: 2023/11/02 16:44:10 by museker          ###   ########.fr       */
+/*   Updated: 2023/11/27 11:13:58 by mucakmak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	two_pointer_free(char **s)
+void	split_c(t_data *d, int i)
 {
-	int	i;
-
-	i = -1;
-	while (s[++i])
-		free(s[i]);
-	free(s);
-}
-
-int	two_pointer_size(char **s)
-{
-	int	i;
-
-	i = -1;
-	while (s[++i])
-		;
-	return (i);
-}
-
-void	split_direct(t_data *d)
-{
-	int		i;
+	char	*tmp;
+	char	**tmptwo;
 	int		j;
+	int		e;
 
-	i = -1;
 	j = -1;
-	d->r_paths = malloc(sizeof(char **) * 7);
-	while (d->redirect[++i])
+	e = -1;
+	if (ft_strchr(d->r_paths[i][0], 'C'))
 	{
-		if (d->redirect[i][0] == '\n')
-			continue ;
-		d->r_paths[++j] = ft_split(d->redirect[i], ' ');
-		if (!d->r_paths[j] || !d->r_paths[j][0] || !d->r_paths[j][1]
-			|| d->r_paths[j][1][0] == '\n')
-			ft_error("Invalid redirect paths!", -1, -1);
+		tmp = two_pointer_to_one_pointer(d->r_paths[i]);
+		tmptwo = ft_split(tmp, ',');
+		free(tmp);
+		while (tmptwo[++j])
+		{
+			d->c[++e] = ft_atoi(tmptwo[j]);
+			free(tmptwo[j]);
+		}
+		free(tmptwo);
+		if (j != 3)
+			ft_error("C wrong!!\n", -1, -1);
+		d->c[++e] = '\0';
 	}
-	d->r_paths[++j] = NULL;
+}
+
+void	split_f(t_data *d, int i)
+{
+	char	*tmp;
+	char	**tmptwo;
+	int		j;
+	int		e;
+
+	j = -1;
+	e = -1;
+	if (ft_strchr(d->r_paths[i][0], 'F'))
+	{
+		tmp = two_pointer_to_one_pointer(d->r_paths[i]);
+		tmptwo = ft_split(tmp, ',');
+		free(tmp);
+		while (tmptwo[++j])
+		{
+			d->f[++e] = ft_atoi(tmptwo[j]);
+			free(tmptwo[j]);
+		}
+		free(tmptwo);
+		if (j != 3)
+			ft_error("F wrong!!\n", -1, -1);
+		d->f[++e] = '\0';
+	}
 }
 
 void	split_color_code(t_data *d)
 {
 	int		i;
-	int		j;
-	int		e;
-	int		size;
 
 	i = -1;
-	d->c = malloc(sizeof(int) * 100);
-	d->f = malloc(sizeof(int) * 100);
+	d->c = malloc(sizeof(int) * 4);
+	d->f = malloc(sizeof(int) * 4);
 	while (d->r_paths[++i])
 	{
-		if (ft_strchr(d->r_paths[i][0], 'C'))
-		{
-			size = 6;
-			j = 0;
-			e = -1;
-			while (--size > 0 && ++j)
-			{
-				if (ft_strchr(d->r_paths[i][j], ','))
-					continue ;
-				d->c[++e] = ft_atoi(d->r_paths[i][j]);
-			}
-			d->c[++e] = '\0';
-		}
-		else if (ft_strchr(d->r_paths[i][0], 'F'))
-		{
-			size = 6;
-			j = 0;
-			e = -1;
-			while (--size > 0 && ++j)
-			{
-				if (ft_strchr(d->r_paths[i][j], ','))
-					continue ;
-				d->f[++e] = ft_atoi(d->r_paths[i][j]);
-			}
-			d->f[++e] = '\0';
-		}
+		split_c(d, i);
+		split_f(d, i);
 	}
+	set_color(&d->ch->fl, d->f);
+	set_color(&d->ch->ce, d->c);
 }
 
 void	check_value_of_redirect(char ***s)
@@ -106,7 +93,7 @@ void	check_value_of_redirect(char ***s)
 		j = i;
 		while (s[++j])
 			if (!ft_strncmp(s[j][1], p, ft_strlen(s[j][1])))
-				ft_error("Error: redirect is not valid elma :)", -1, -1);
+				ft_error("Error: redirect is not valid!!", -1, -1);
 	}
 }
 
@@ -116,40 +103,3 @@ void	ft_checkdirect(t_data *data)
 	check_value_of_redirect(data->r_paths);
 	split_color_code(data);
 }
-
-
-		// if (d->r_paths[i][1][0])
-		// else if (d->r_paths[i][0] && ft_strnstr(d->r_paths[i][0],
-		// 	"C", ft_strlen(d->redirect[i])))
-		// {
-		// 	j = -1;
-		// 	s = ft_split(d->r_paths[i][1], ',');
-		// 	while (++j < 3)
-		// 		d->c[j] = ft_atoi(s[j]);
-		// }
-		// else if (d->r_paths[i][0] && ft_strnstr(d->r_paths[i][0], "F", ft_strlen(d->redirect[i])))
-		// {
-		// 	j = -1;
-		// 	s = ft_split(d->r_paths[i][1], ',');
-		// 	while (++j < 3)
-		// 		d->f[j] = ft_atoi(s[j]);
-		// }
-
-
-			// 	printf("d->f[e] = (%s)\n", d->r_paths[i][j]);
-
-			// if (ft_strchr(d->r_paths[i][0], 'C'))
-			// {
-			// 	e = -1;
-			// 	if (ft_strchr(d->r_paths[i][j], ','))
-			// 		continue ;  						// en son
-				
-			// 	d->c[++e] = ft_atoi(d->r_paths[i][j]);
-			// }
-			// if (ft_strchr(d->r_paths[i][0], 'F'))
-			// {
-			// 	e = -1;
-			// 	if (ft_strchr(d->r_paths[i][j], ','))
-			// 		continue ;
-			// 	d->f[++e] = ft_atoi(d->r_paths[i][j]);
-			// }
