@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mucakmak <mucakmak@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: museker <museker@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:46:10 by museker           #+#    #+#             */
-/*   Updated: 2023/11/27 11:45:25 by mucakmak         ###   ########.fr       */
+/*   Updated: 2023/12/11 14:36:35 by museker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,22 @@ void	get_all_map_size(t_data *data, char *address)
 
 void	set_redirects(t_data *data)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*s;
 
 	i = -1;
 	j = 0;
 	while (data->all_map[++i])
 	{
-		if (data->all_map[i][0] == '0' || data->all_map[i][0] == '1')
+		s = ft_strtrim(data->all_map[i], " ");
+		if (s[0] == '0' || s[0] == '1')
+		{
+			free(s);
 			break ;
+		}
 		data->redirect[j++] = ft_strdup(data->all_map[i]);
+		free(s);
 	}
 	if (!data->all_map[i])
 		ft_error("Map not found!", -1, -1);
@@ -68,9 +74,12 @@ void	ft_getmap(t_data *d, int i)
 	{
 		j = 0;
 		if (ft_strchr(d->all_map[i], '\t'))
-			ft_error("Error: Invalid map", i, -1);
+			ft_error("Invalid map", i, -1);
 		if (!ft_strchr(d->all_map[i], '1') && !ft_strchr(d->all_map[i], '0'))
+		{
+			ft_check_get_map(d, i);
 			break ;
+		}
 		d->map[k] = malloc(d->file_width + 1);
 		while (j < d->file_width - 1)
 			ft_getmap2(d, &i, &j, &k);
@@ -121,7 +130,7 @@ void	get_all_map(t_data *data, char *address)
 		data->all_map[i] = ft_calloc(data->file_width + 1, sizeof(char));
 		ft_memcpy(data->all_map[i], line, data->file_width + 1);
 		if (ft_strchr(data->all_map[i], '\t'))
-			ft_error("Error: Invalid map", i, -1);
+			ft_error("Invalid map", i, -1);
 		free(line);
 		i++;
 	}

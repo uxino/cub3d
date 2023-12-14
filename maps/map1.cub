@@ -1,0 +1,14 @@
+NO ./textures/wall_bonus.xpm
+WE ./textures/wall_4.xpm
+SO ./textures/wall_2.xpm
+EA ./textures/apple.xpm
+
+C 232   ,   123, 12
+F     12    ,31  , 12 
+
+ 1111111111111111111111
+11111111100000N000001
+1100000000000100000111
+ 11111111111111111111
+  11111111111111111111
+

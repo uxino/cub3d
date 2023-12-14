@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mucakmak <mucakmak@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: museker <museker@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 07:50:26 by museker           #+#    #+#             */
-/*   Updated: 2023/11/27 11:19:03 by mucakmak         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:58:06 by museker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,5 @@ int	draw_game(t_data *d)
 		map_line(d->ch, x);
 	}
 	draw(d);
-	mlx_do_sync(d->g.mlx);
 	return (0);
 }

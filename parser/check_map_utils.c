@@ -34,15 +34,12 @@ int	ft_check_one_zero_map_2(t_data *d, int i, int j)
 	return (0);
 }
 
-void	print_double_pointer(char **str)
+int	c_o_z_m(t_data *d, int i, int j)
 {
-	int	i;
-
-	i = -1;
-	if (!str)
-		return ;
-	while (str[++i])
-		printf("(%s)\n", str[i]);
+	if (d->map[i][j] == 'W' || d->map[i][j] == 'S'
+		|| d->map[i][j] == 'N' || d->map[i][j] == 'E')
+		return (1);
+	return (0);
 }
 
 int	map_size(char **s)

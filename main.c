@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mucakmak <mucakmak@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: museker <museker@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 11:11:00 by mucakmak          #+#    #+#             */
-/*   Updated: 2023/11/27 11:52:44 by mucakmak         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:24:35 by museker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	mlx_define(t_data *data)
 
 	data->g.mlx = mlx_init();
 	data->g.win = mlx_new_window(data->g.mlx, SCREENWIDTH, SCREENHEIGHT,
-			"ELMA.TXT");
+			"cub3D");
 	data->g.sky = mlx_xpm_file_to_image(data->g.mlx, "textures/sky_eagle.xpm",
 			&x, &y);
 	data->g.floor = mlx_xpm_file_to_image(data->g.mlx,
@@ -39,8 +39,8 @@ void	mlx_define(t_data *data)
 			"textures/west_mossy.xpm", &x, &y);
 	data->g.south_wall = mlx_xpm_file_to_image(data->g.mlx,
 			"textures/south_bluestone.xpm", &x, &y);
-	init_vec(data->ch, data->ch->ch_pos[2], data->ch->ch_pos[0],
-		data->ch->ch_pos[1]);
+	init_vec(data->ch, data->ch->ch_pos[2], data->ch->ch_pos[1],
+		data->ch->ch_pos[0]);
 	init_mlx(data);
 	mlx_hook(data->g.win, 2, 1L << 0, key_code, data);
 	mlx_loop_hook(data->g.mlx, draw_game, data);
@@ -61,6 +61,18 @@ void	ft_init(t_data *data, char *address)
 	ft_checkdirect(data);
 }
 
+void	check_file_name(const char *map_name)
+{
+	int	len;
+
+	len = ft_strlen(map_name) - 4;
+	if (ft_strncmp(map_name + len, ".cub", ft_strlen(map_name)))
+		ft_error("Map is not .cub format!", -1, -1);
+	if (SCREENWIDTH / SCREENHEIGHT != 1 || SCREENWIDTH > 1200
+		|| SCREENHEIGHT > 1200)
+		ft_error("More window size than excepted!", -1, -1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*data;
@@ -71,6 +83,8 @@ int	main(int argc, char **argv)
 	data->ch = malloc(sizeof(t_ch));
 	if (!data)
 		return (0);
+	if (argv[1])
+		check_file_name(argv[1]);
 	ft_init(data, argv[1]);
 	mlx_define(data);
 	return (0);
